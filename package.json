@@ -2,9 +2,9 @@
   "name": "effectnode",
   "version": "1.0.1",
   "description": "",
-  "main": "./src/entry.js",
+  "main": "./cli/entry.js",
   "bin": {
-    "effectnode": "src/entry.js"
+    "effectnode": "cli/entry.js"
   },
   "keywords": [],
   "author": "",
