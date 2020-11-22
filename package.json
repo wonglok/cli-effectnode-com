@@ -2,12 +2,13 @@
   "name": "effectnode",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "bin": "./index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "main": "./src/entry.js",
+  "bin": {
+    "effectnode": "src/entry.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
 }
