@@ -2,7 +2,7 @@
   "name": "effectnode",
   "version": "1.0.2",
   "description": "",
-  "main": "./cli/entry.js",
+  "main": "./lib/sdk.js",
   "repository": "wonglok/cli-effectnode-com",
   "bin": {
     "effectnode": "cli/entry.js"
@@ -14,9 +14,13 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "inquirer": "^7.3.3",
     "minimist": "^1.2.5",
+    "mkcert": "^1.4.0",
     "open": "^7.3.0"
   },
   "scripts": {

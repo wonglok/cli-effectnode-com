@@ -21,7 +21,7 @@ export default new Router({
     },
     {
       path: '/',
-      component: () => import('./components/EffectNode/AppVue/Swimmers.vue')
+      component: () => import('./components/AppLandingPage/Landing.vue')
     },
     // {
     //   path: '/about',

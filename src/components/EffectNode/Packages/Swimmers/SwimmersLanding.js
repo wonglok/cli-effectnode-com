@@ -74,7 +74,7 @@ export class EditGUI {
   }
 }
 
-export class Swimmers {
+export class SwimmersLanding {
   constructor ({ ctx }) {
     this.ctx = ctx
     this.group = new THREE.Object3D()
@@ -91,7 +91,7 @@ export class Swimmers {
     this.ctrlPts = 10
 
     this.restartDelay = 0
-    this.duration = 4.125 * 3 // seconds
+    this.duration = 4.125 * 15 // seconds
 
     for (let i = 0; i < this.ctrlPts; i++) {
       this[`controlPoint${i}`] = []
@@ -522,7 +522,7 @@ export class Swimmers {
           uniform vec3 baseColor;
 
           void main (void) {
-            gl_FragColor = vec4(baseColor, 0.5 * vT);
+            gl_FragColor = vec4(baseColor, 0.85 * vT);
           }
         `,
         defines: {
@@ -545,7 +545,7 @@ export class Swimmers {
           uniform vec3 baseColor;
 
           void main (void) {
-            gl_FragColor = vec4(baseColor, 0.5);
+            gl_FragColor = vec4(baseColor, 0.85);
           }
         `,
         defines: {

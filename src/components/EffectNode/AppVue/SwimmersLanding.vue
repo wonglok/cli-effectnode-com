@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { SwimmersCanvas } from '../Packages/Swimmers/SwimmersCanvas.js'
+import { SwimmersCanvasLanding } from '../Packages/Swimmers/SwimmersCanvasLanding.js'
 export default {
   components: {
     // MenuArea: require('./Menu.vue').default
@@ -19,7 +19,7 @@ export default {
     }
   },
   mounted () {
-    let _kv = new SwimmersCanvas({ el: this.$refs.kv1 })
+    let _kv = new SwimmersCanvasLanding({ el: this.$refs.kv1 })
     this.getApp = () => _kv
   },
   beforeDestroy () {
