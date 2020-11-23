@@ -554,8 +554,10 @@
 import NavbarComponent from "./TNav.vue";
 import FooterComponent from "./TFooter.vue";
 import swimmers from '../EffectNode/AppVue/SwimmersLanding.vue';
-
+import * as EN from 'effectnode'
 // require('effectnode')
+console.log(EN)
+
 export default {
   components: {
     NavbarComponent,
