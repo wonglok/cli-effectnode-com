@@ -1,6 +1,6 @@
 {
   "name": "effectnode",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "./lib/sdk.js",
   "repository": "wonglok/cli-effectnode-com",
@@ -24,10 +24,13 @@
     "open": "^7.3.0"
   },
   "scripts": {
+    "patch": "npm version patch -m \"Upgrade to %s for reasons\"",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy": "git add .; git commit -am \"git backup\"; git push -u origin master",
+    "git": "git add .; git commit -am \"git backup\"; git push -u origin master",
+    "publish": "npm publish",
+    "deploy": "npm run build; npm run patch; npm run git; npm run publish;",
     "dev": "concurrently \"npm run d3002\" \"npm run ssl\"",
     "d3002": "vue-cli-service serve --port 3002",
     "ssl": "local-ssl-proxy --config proxy.config.json"
