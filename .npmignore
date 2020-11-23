@@ -1,2 +1,9 @@
 node_modules/
 yarn.lock
+src/
+public/
+babel.config.js
+proxy.config.json
+tailwind.config.js
+vue.config.js
+.nowignore
