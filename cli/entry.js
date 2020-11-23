@@ -56,8 +56,9 @@ appGUI.listen(portGUI, () => {
 
 const appAPI = express()
 appAPI.get('/', (req, res) => {
-
-  return res.status(200).json('ready')
+  return res.status(200).json({
+    msg: 'Welcome to EffectNode GUI API'
+  })
 })
 
 appAPI.listen(portAPI, () => {
