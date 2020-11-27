@@ -38,7 +38,7 @@
     "lint": "vue-cli-service lint",
     "git": "git add .; git commit -am \"git backup\"; git push -u origin master",
     "publish": "npm publish",
-    "deploy": "npm run build; npm run patch; npm run git; npm run publish;",
+    "deploy": "npm run build; npm run git; npm run patch; npm run publish;",
     "dev": "concurrently \"npm run d3002\" \"npm run ssl\" \"npm run devcli\"",
     "d3002": "vue-cli-service serve --port 3002",
     "ssl": "local-ssl-proxy --config proxy.config.json"
