@@ -8,7 +8,6 @@
 // console.log("Welcome to Effect Node project cli tool")
 // receiveCommnad()
 
-
 // var inquirer = require('inquirer');
 // inquirer
 //   .prompt([

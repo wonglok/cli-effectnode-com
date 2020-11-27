@@ -1,6 +1,6 @@
 <template>
   <div>
-    <navbar-component></navbar-component>
+    <NavbarComponent></NavbarComponent>
     <main>
       <div
         class="relative pt-16 pb-32 flex content-center items-center justify-center"
@@ -8,27 +8,38 @@
       >
         <div
           class="absolute top-0 w-full h-full bg-center bg-cover"
-          :style="`background-image: url('${bgImage}');`"
+          :style="`background-image: url('${cyberImage}');`"
         >
           <span
             class="w-full h-full absolute opacity-75 bg-black"
           ></span>
           <swimmers class="full"></swimmers>
         </div>
+
         <div class="container relative mx-auto">
           <div class="items-center flex flex-wrap">
             <div class="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
-              <div class="pr-12">
+              <div class="text-center">
                 <h1 class="text-white font-semibold text-5xl">
                   Let's start your project.
                 </h1>
                 <p class="mt-4 text-lg text-gray-300">
                   Effect Node CLI Studio is your assisted development environment that can supercharge your productivity for developing Creative Coding / WebGL / THREE.JS projects.
                 </p>
+                <p class="mt-4">
+                  <button
+                    class=" bg-white text-gray-900 shadow-2xl active:bg-gray-100 text-xl font-bold px-4 py-2 rounded hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
+                    type="button"
+                    style="transition: all 0.15s ease 0s;"
+                  >
+                    <i class="fas fa-share-alt"></i> Let's Start!
+                  </button>
+                </p>
               </div>
             </div>
           </div>
         </div>
+
         <div
           class="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden"
           style="height: 70px; transform: translateZ(0px);"
@@ -104,7 +115,9 @@
               </div>
             </div>
           </div>
-          <div class="flex flex-wrap items-center mt-32">
+
+
+          <div v-if="false" class="flex flex-wrap items-center mt-32">
             <div class="w-full md:w-5/12 px-4 mr-auto ml-auto">
               <div
                 class="text-gray-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-gray-100"
@@ -132,12 +145,10 @@
             </div>
             <div class="w-full md:w-4/12 px-4 mr-auto ml-auto">
               <div
-                class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-pink-600"
+                class="relative flex flex-col min-w-0 break-words  w-full mb-6 shadow-lg rounded-lg bg-pink-600"
               >
 
-                <div
-                 class="w-full relative rounded-t-lg h-56 rounded-3xl rounded-bl-none overflow-hidden">
-
+                <div class="w-full relative rounded-t-lg h-56 rounded-3xl rounded-bl-none overflow-hidden">
                 </div>
                 <blockquote class="relative p-8 mb-4">
                   <svg
@@ -164,6 +175,8 @@
               </div>
             </div>
           </div>
+
+
         </div>
       </section>
       <section class="relative py-20">
@@ -202,11 +215,9 @@
                 >
                   <i class="fas fa-rocket text-xl"></i>
                 </div>
-                <h3 class="text-3xl font-semibold">A growing company</h3>
+                <h3 class="text-3xl font-semibold">SDK with Simple API</h3>
                 <p class="mt-4 text-lg leading-relaxed text-gray-600">
-                  The extension comes with three pre-built pages to help you get
-                  started faster. You can change the text and images and you're
-                  good to go.
+                  With our SDK, It can automatically include json in production build time or to include realtime updates for iOS
                 </p>
                 <ul class="list-none mt-6">
                   <li class="py-2">
@@ -256,7 +267,7 @@
           </div>
         </div>
       </section>
-      <section class="pt-20 pb-48">
+      <section class="pt-20 pb-48" v-if="false">
         <div class="container mx-auto px-4">
           <div class="flex flex-wrap justify-center text-center mb-24">
             <div class="w-full lg:w-6/12 px-4">
@@ -547,27 +558,31 @@
         </div>
       </section>
     </main>
-    <footer-component></footer-component>
+
+    <FooterComponent></FooterComponent>
   </div>
 </template>
 <script>
-import NavbarComponent from "./TNav.vue";
-import FooterComponent from "./TFooter.vue";
-import swimmers from '../EffectNode/AppVue/SwimmersLanding.vue';
-import * as EN from 'effectnode'
-// require('effectnode')
-console.log(EN)
+//
+import NavbarComponent from './TNav.vue'
+import FooterComponent from './TFooter.vue'
+//
+import Swimmers from '../../../lib/EffectNode/AppVue/SwimmersLanding.vue'
+import { RealtimeClient } from '../../../lib/sdk.js'
 
 export default {
   components: {
     NavbarComponent,
     FooterComponent,
-    swimmers
+    Swimmers
   },
   data () {
     return {
-      bgImage: require('./img/dan-gold-CCKcwh7s9A4-unsplash.jpg')
+      cyberImage: require('./img/dan-gold-CCKcwh7s9A4-unsplash.jpg')
     }
+  },
+  mounted () {
+    new RealtimeClient({ namespace: 'Slider' })
   }
 }
 </script>
