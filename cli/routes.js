@@ -3,7 +3,7 @@ let express = require('express')
 let DBEngine = require('./db.js')
 let Router = express.Router
 
-module.exports.setupRoutes = async ({ app, io, iosec, workspace }) => {
+module.exports.setupRoutes = async ({ app, io, workspace }) => {
   let router = new Router()
   app.use(router)
 
@@ -83,5 +83,5 @@ module.exports.setupRoutes = async ({ app, io, iosec, workspace }) => {
   // http
   await makeSocketIO({ namespace: 'effectnode', io: io    })
   // https
-  await makeSocketIO({ namespace: 'effectnode', io: iosec })
+  // await makeSocketIO({ namespace: 'effectnode', io: iosec })
 }

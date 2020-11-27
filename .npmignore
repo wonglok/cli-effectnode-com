@@ -8,3 +8,5 @@ tailwind.config.js
 vue.config.js
 .nowignore
 lib/EffectNode/AppVue
+effectnode/
+cert/

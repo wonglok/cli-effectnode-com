@@ -1,23 +1,27 @@
 var inquirer = require('inquirer');
 const fs = require('fs-extra')
-const open = require('open')
+// const open = require('open')
 const path = require('path')
 const http = require('http')
-const https = require('https')
+// const https = require('https')
 const socketio = require('socket.io')
 const express = require('express')
+const { exec } = require('child_process')
 let run = async ({ workspace }) => {
   const WORKSPACE = workspace
   const CORE_PATH = __dirname
-  const portGUI = 3388
-  const portAPI = 2329
+  const portGUI = 8081
+  const portAPI = 8082
+  const portSecGUI = 4431
+  const portSecAPI = 4432
+
   const bodyParser = require('body-parser')
   // const cors = require('cors');
 
   const GUI = express()
   const API = express()
 
-  const folder = require('./folder.js')
+  // const folder = require('./folder.js')
   const routes = require('./routes.js')
 
   var corsFnc = (req, res, next) => {
@@ -34,7 +38,11 @@ let run = async ({ workspace }) => {
 
   GUI.use(bodyParser.json())
   GUI.use(express.static(path.join(CORE_PATH, '../dist')))
+  GUI.get('*', function (req, res) {
+    res.sendFile(path.resolve(__dirname, '../dist/index.html'));
+  });
   GUI.use(corsFnc)
+
 
   //------
   API.use(bodyParser.json())
@@ -44,6 +52,8 @@ let run = async ({ workspace }) => {
       msg: 'Welcome to EffectNode GUI API'
     })
   })
+
+
 
   let getIP = () => {
     const ifaces = require('os').networkInterfaces();
@@ -60,73 +70,53 @@ let run = async ({ workspace }) => {
     return address;
   }
 
-    const ip = getIP()
+  const ip = getIP()
+  // let genCert = require('./cert.js')
+  // let cert = genCert();
 
-    // const mkCert = require('mkcert')
+  // let networkGUIHTTPS = https.createServer(cert, GUI)
+  let networkGUIHTTP = http.createServer(GUI)
+  // networkGUIHTTPS.listen(portGUI);
+  networkGUIHTTP.listen(portGUI);
 
-    // // create a certificate authority
-    // const ca = await mkCert.createCA({
-    //   organization: 'EffectNode CA',
-    //   countryCode: 'HK',
-    //   state: 'Hong Kong',
-    //   locality: 'Hong Kong',
-    //   validityDays: 365
-    // });
+  // let networkAPIHTTPS = https.createServer(cert, API)
+  let networkAPIHTTP = http.createServer(API)
+  // let ioAPIsec = socketio(networkAPIHTTPS, {
+  //   cors: {
+  //     origin: (orign, cb) => {
+  //       cb(null, true)
+  //     }
+  //   }
+  // })
 
-    // // then create a tls certificate
-    // const cert = await mkCert.createCert({
-    //   domains: [ip, '127.0.0.1', 'localhost', 'wonglok.local', 'effectnode.local'],
-    //   validityDays: 365,
-    //   caKey: ca.key,
-    //   caCert: ca.cert
-    // });
-
-    // console.log(cert)
-
-  let cert = {
-    key: fs.readFileSync(__dirname + '/key.key', 'utf8'),
-    cert:  fs.readFileSync(__dirname + '/cert.cert', 'utf8')
-  }
-
-  let networkGUIHTTPS = https.createServer(cert, GUI)
-  let networkGUIHTTP = http.createServer(cert, GUI)
-  networkGUIHTTPS.listen(portGUI);
-  networkGUIHTTP.listen(portGUI + 1)
-
-  let networkAPIHTTPS = https.createServer(cert, API)
-  let networkAPIHTTP = http.createServer(cert, API)
-  let ioAPIsec = socketio(networkAPIHTTP, {
+  let ioAPI = socketio(networkAPIHTTP, {
     cors: {
       origin: (orign, cb) => {
         cb(null, true)
       }
     }
   })
-
-  let ioAPI = socketio(networkAPIHTTPS, {
-    cors: {
-      origin: (orign, cb) => {
-        cb(null, true)
-      }
-    }
-  })
-  networkAPIHTTPS.listen(portAPI);
-  networkAPIHTTP.listen(portAPI + 1);
+  // networkAPIHTTPS.listen(portAPI);
+  networkAPIHTTP.listen(portAPI);
 
   // ioAPI.on('connection', (socket) => {
   //   console.log('a user connected', socket.id);
   // });
 
   console.log('======= STARTING =======')
-  console.log(`EffectNode GUI listening at https://${ip}:${portGUI}`)
-  console.log(`EffectNode GUI listening at http://${ip}:${portGUI + 1}\n`)
+  console.log(`EffectNode GUI listening at http://${ip}:${portGUI}`)
+  console.log(`EffectNode API listening at http://${ip}:${portAPI}`)
 
-  console.log(`EffectNode API listening at https://${ip}:${portAPI}`)
-  console.log(`EffectNode API listening at http://${ip}:${portAPI + 1}`)
+  setTimeout(() => {
+    exec(`${__dirname}/../node_modules/local-ssl-proxy/bin/local-ssl-proxy --source ${portSecGUI} --target ${portGUI}`, console.log)
+    exec(`${__dirname}/../node_modules/local-ssl-proxy/bin/local-ssl-proxy --source ${portSecAPI} --target ${portAPI}`, console.log)
 
+    console.log(`EffectNode GUI listening at https://${ip}:${portSecGUI}`)
+    console.log(`EffectNode API listening at https://${ip}:${portSecAPI}`)
+  })
   // open(`https://${ip}:${portGUI}`)
 
-  routes.setupRoutes({ workspace: WORKSPACE, app: API, io: ioAPI, iosec: ioAPIsec })
+  routes.setupRoutes({ workspace: WORKSPACE, app: API, io: ioAPI })
 }
 
 let init = () => {
