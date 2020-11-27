@@ -1,6 +1,7 @@
 <template>
   <div>
     <NavbarComponent></NavbarComponent>
+
     <main>
       <div
         class="relative pt-16 pb-32 flex content-center items-center justify-center"
@@ -31,6 +32,7 @@
                     class=" bg-white text-gray-900 shadow-2xl active:bg-gray-100 text-xl font-bold px-4 py-2 rounded hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
                     type="button"
                     style="transition: all 0.15s ease 0s;"
+                    @click="letsGo()"
                   >
                     <i class="fas fa-share-alt"></i> Let's Start!
                   </button>
@@ -568,7 +570,6 @@ import NavbarComponent from './TNav.vue'
 import FooterComponent from './TFooter.vue'
 //
 import Swimmers from '../../../lib/EffectNode/AppVue/SwimmersLanding.vue'
-import { RealtimeClient } from '../../../lib/sdk.js'
 
 export default {
   components: {
@@ -581,8 +582,13 @@ export default {
       cyberImage: require('./img/dan-gold-CCKcwh7s9A4-unsplash.jpg')
     }
   },
+  methods: {
+    letsGo () {
+      this.$router.push('/editor')
+    }
+  },
   mounted () {
-    new RealtimeClient({ namespace: 'Slider' })
+
   }
 }
 </script>

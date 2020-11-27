@@ -1,6 +1,8 @@
 {
   "p443": {
     "source": 443,
-    "target": 3002
+    "target": 3002,
+    "cert": "./cli/cert.cert",
+    "key": "./cli/key.key"
   }
 }

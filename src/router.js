@@ -7,22 +7,27 @@ export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
-    {
-      path: '/balls',
-      component: () => import('../lib/EffectNode/AppVue/Home.vue')
-    },
-    {
-      path: '/curves',
-      component: () => import('../lib/EffectNode/AppVue/Curves.vue')
-    },
-    {
-      path: '/swimmers',
-      component: () => import('../lib/EffectNode/AppVue/Swimmers.vue')
-    },
+    // {
+    //   path: '/balls',
+    //   component: () => import('../lib/EffectNode/AppVue/Home.vue')
+    // },
+    // {
+    //   path: '/curves',
+    //   component: () => import('../lib/EffectNode/AppVue/Curves.vue')
+    // },
+    // {
+    //   path: '/swimmers',
+    //   component: () => import('../lib/EffectNode/AppVue/Swimmers.vue')
+    // },
     {
       path: '/',
       component: () => import('./components/AppPages/Landing.vue')
     },
+    {
+      path: '/editor',
+      component: () => import('./components/AppPages/Editor.vue')
+    },
+
     // {
     //   path: '/about',
     //   name: 'about',

@@ -1,5 +1,5 @@
 let express = require('express')
-let folder = require('./folder.js')
+// let folder = require('./folder.js')
 let DBEngine = require('./db.js')
 let Router = express.Router
 
@@ -7,89 +7,81 @@ module.exports.setupRoutes = async ({ app, io, iosec, workspace }) => {
   let router = new Router()
   app.use(router)
 
-  io.on('connection', (socket) => {
-    console.log('connection', socket.id)
-  })
-  io.on('disconnect', (socket) => {
-    console.log('disconnect', socket.id)
-  })
+  let makeCollectionRoute = ({ MyIO, MyDB, socket, collection }) => {
+    let myCollection = MyDB.get('current.db.' + collection).value()
+    if (!myCollection) {
+      MyDB.set(`current.db.${collection}`, []).write()
+    }
 
-  iosec.on('connection', (socket) => {
-    console.log('connection-secure', socket.id)
-  })
-  iosec.on('disconnect', (socket) => {
-    console.log('disconnect-secure', socket.id)
-  })
+    socket.on('add' + `${collection}`, (obj) => {
+      console.log(collection, obj)
+
+      MyDB.get('current.db.' + collection)
+        .push(obj)
+        .write()
+        .then(() => {
+          MyIO.emit('add' + `${collection}`, obj)
+        })
+    })
+
+    socket.on('remove' + `${collection}`, (obj) => {
+      MyDB.get('current.db.' + collection)
+        .remove({ _id: obj._id })
+        .write()
+        .then(() => {
+          MyIO.emit('remove' + `${collection}`, obj)
+        })
+    })
+
+    socket.on('patch' + `${collection}`, (obj) => {
+      MyDB.get('current.db.' + collection)
+        .find({ _id: obj._id })
+        .assign(obj)
+        .write()
+        .then(() => {
+          MyIO.emit('patch' + `${collection}`, obj)
+        })
+    })
+  }
 
   let makeSocketIO = async ({ io, namespace }) => {
-    let MyDB = await DBEngine.ensureDB({ workspace, collection: namespace })
     let MyIO = io.of('/' + namespace)
     let MyRoom = `@${namespace}`
+    let MyDB = await DBEngine.ensureDB({ workspace, namespace: namespace })
 
     MyIO.on('connection', (socket) => {
-      socket.on('add', (obj) => {
-        MyDB.get('current.data')
-          .push(obj)
-          .write()
-          .then(() => {
-            socket.to(MyRoom).emit('add', obj)
-          })
-      })
+      makeCollectionRoute({ MyIO, MyDB, socket, collection: 'stuff' })
+      makeCollectionRoute({ MyIO, MyDB, socket, collection: 'sliders' })
 
-      socket.on('remove', (obj) => {
-        MyDB.get('current.data')
-          .remove({ _id: obj._id })
-          .write()
-          .then(() => {
-            socket.to(MyRoom).emit('remove', obj)
-          })
-      })
-
-      socket.on('patch', (obj) => {
-        MyDB.get('current.data')
-          .find({ _id: obj._id })
-          .assign(obj)
-          .write()
-          .then(() => {
-            socket.to(MyRoom).emit('patch', obj)
-          })
-      })
-
-      socket.on('snap', (data, fnc) => {
-        let current = MyDB.get('current').value()
+      socket.on('add-snap', (snap) => {
+        snap.dateSnap = new Date().getTime()
+        snap._id = '_' + Math.random().toString(36).substr(2, 9)
         MyDB.get('versions')
-          .push(JSON.parse(JSON.stringify(current)))
+          .push(snap)
           .write()
           .then(() => {
-            fnc(current)
+            // console.log(snap, '123')
+            socket.emit('add-snap-local', snap)
           })
       })
 
-      let initData = MyDB.get('current.data').value()
+      socket.on('remove-snap', (snap) => {
+        MyDB.get('versions')
+          .remove(snap)
+          .write()
+          .then(() => {
+            socket.emit('remove-snap-local', snap)
+          })
+      })
+
+      let initData = MyDB.value()
       socket.join(MyRoom)
       socket.emit('init', initData)
     })
   }
 
-  await makeSocketIO({ namespace: 'Slider', io: io    })
-  await makeSocketIO({ namespace: 'Slider', io: iosec })
+  // http
+  await makeSocketIO({ namespace: 'effectnode', io: io    })
+  // https
+  await makeSocketIO({ namespace: 'effectnode', io: iosec })
 }
-
-/*
-{
-  "collection": "Sliders",
-  "versions": [],
-  "current": {
-    "effectnode": "1.0.3",
-    "data": []
-  }
-}
-*/
-
-// let tryRun = async() => {
-//   let cwd = process.cwd()
-//   let items = await folder.readFolder({ folder: cwd })
-//   console.log(items)
-// }
-
-// tryRun()

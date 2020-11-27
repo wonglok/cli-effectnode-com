@@ -16,6 +16,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.1",
     "body-parser": "^1.19.0",
+    "chokidar": "^3.4.3",
     "cors": "^2.8.5",
     "effectnode": "^1.0.3",
     "express": "^4.17.1",
@@ -38,7 +39,7 @@
     "git": "git add .; git commit -am \"git backup\"; git push -u origin master",
     "publish": "npm publish",
     "deploy": "npm run build; npm run patch; npm run git; npm run publish;",
-    "dev": "concurrently \"npm run d3002\" \"npm run ssl\"",
+    "dev": "concurrently \"npm run d3002\" \"npm run ssl\" \"npm run devcli\"",
     "d3002": "vue-cli-service serve --port 3002",
     "ssl": "local-ssl-proxy --config proxy.config.json"
   },
