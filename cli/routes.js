@@ -7,51 +7,64 @@ module.exports.setupRoutes = async ({ app, io, workspace }) => {
   let router = new Router()
   app.use(router)
 
-  let makeCollectionRoute = ({ MyIO, MyDB, socket, collection }) => {
-    let myCollection = MyDB.get('current.db.' + collection).value()
-    if (!myCollection) {
-      MyDB.set(`current.db.${collection}`, []).write()
-    }
-
-    socket.on('add' + `${collection}`, (obj) => {
-      console.log(collection, obj)
-
-      MyDB.get('current.db.' + collection)
-        .push(obj)
-        .write()
-        .then(() => {
-          MyIO.emit('add' + `${collection}`, obj)
-        })
-    })
-
-    socket.on('remove' + `${collection}`, (obj) => {
-      MyDB.get('current.db.' + collection)
-        .remove({ _id: obj._id })
-        .write()
-        .then(() => {
-          MyIO.emit('remove' + `${collection}`, obj)
-        })
-    })
-
-    socket.on('patch' + `${collection}`, (obj) => {
-      MyDB.get('current.db.' + collection)
-        .find({ _id: obj._id })
-        .assign(obj)
-        .write()
-        .then(() => {
-          MyIO.emit('patch' + `${collection}`, obj)
-        })
-    })
-  }
-
   let makeSocketIO = async ({ io, namespace }) => {
     let MyIO = io.of('/' + namespace)
     let MyRoom = `@${namespace}`
     let MyDB = await DBEngine.ensureDB({ workspace, namespace: namespace })
 
     MyIO.on('connection', (socket) => {
-      makeCollectionRoute({ MyIO, MyDB, socket, collection: 'stuff' })
-      makeCollectionRoute({ MyIO, MyDB, socket, collection: 'sliders' })
+      let makeCollection = async ({ collection }) => {
+        let myCollection = MyDB.get('current.db.' + collection).value()
+        if (!myCollection) {
+          return MyDB.set(`current.db.${collection}`, []).write()
+            .then(() => {
+              MyIO.emit('add-collection', { collection })
+            })
+        } else {
+          return Promise.resolve()
+        }
+      }
+
+      socket.on('add-collection', ({ collection }) => {
+        makeCollection({ collection })
+      })
+
+      socket.on('remove-collection', ({ collection }) => {
+        MyDB.unset('current.db.' + collection).write()
+          .then(() => {
+            MyIO.emit('remove-collection', { collection })
+          })
+      })
+
+      socket.on('add-item', async ({ obj, collection }) => {
+        await makeCollection({ collection })
+
+        MyDB.get('current.db.' + collection)
+          .push(obj)
+          .write()
+          .then(() => {
+            MyIO.emit('add-item', { obj, collection })
+          })
+      })
+
+      socket.on('remove-item', ({ obj, collection }) => {
+        MyDB.get('current.db.' + collection)
+          .remove({ _id: obj._id })
+          .write()
+          .then(() => {
+            MyIO.emit('remove-item', { obj, collection })
+          })
+      })
+
+      socket.on('patch-item', ({ device, obj, collection }) => {
+        MyDB.get('current.db.' + collection)
+          .find({ _id: obj._id })
+          .assign(obj)
+          .write()
+          .then(() => {
+            MyIO.emit('patch-item', { device, obj, collection })
+          })
+      })
 
       socket.on('add-snap', (snap) => {
         snap.dateSnap = new Date().getTime()

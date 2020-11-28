@@ -31,13 +31,14 @@
     "socket.io-client": "^3.0.3"
   },
   "scripts": {
+    "kill": "killall node; sleep 1; killall node; sleep 1; killall node;",
     "devcli": "node ./cli/entry.js dev",
     "patch": "npm version patch -m \"Upgrade to %s for reasons\"",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "git": "git add .; git commit -am \"git backup\"; git push -u origin master",
-    "deploy": "npm run build; npm run git; npm run patch; npm publish;",
+    "deploy": "npm run build; npm run git; npm run patch; npm publish; yarn publish",
     "dev": "concurrently \"npm run ssl\" \"npm run d3002\" \"npm run devcli\"",
     "d3002": "vue-cli-service serve --port 3002",
     "ssl": "local-ssl-proxy --config proxy.config.json"

@@ -104,15 +104,22 @@ let run = async ({ workspace }) => {
   // });
 
   console.log('======= STARTING =======')
-  console.log(`EffectNode GUI listening at http://${ip}:${portGUI}`)
-  console.log(`EffectNode API listening at http://${ip}:${portAPI}`)
+  console.log(`\n\nEffectNode Control Panel \nhttp://${ip}:${portGUI} \nhttps://${ip}:${portSecGUI}`)
+  console.log(`\n\nEffectNode API \nhttp://${ip}:${portAPI} \nhttps://${ip}:${portSecAPI}`)
 
   setTimeout(() => {
-    exec(`${__dirname}/../node_modules/local-ssl-proxy/bin/local-ssl-proxy --source ${portSecGUI} --target ${portGUI}`, console.log)
-    exec(`${__dirname}/../node_modules/local-ssl-proxy/bin/local-ssl-proxy --source ${portSecAPI} --target ${portAPI}`, console.log)
+    try {
+      let p1 = exec(`${__dirname}/../node_modules/local-ssl-proxy/bin/local-ssl-proxy --source ${portSecGUI} --target ${portGUI}`)
+      let p2 = exec(`${__dirname}/../node_modules/local-ssl-proxy/bin/local-ssl-proxy --source ${portSecAPI} --target ${portAPI}`)
 
-    console.log(`EffectNode GUI listening at https://${ip}:${portSecGUI}`)
-    console.log(`EffectNode API listening at https://${ip}:${portSecAPI}`)
+      process.once("SIGINT", function () {
+        console.log('======= STOPPING ======= \n')
+        p1.kill()
+        p2.kill()
+      })
+
+    } catch (e) {
+    }
   })
   // open(`https://${ip}:${portGUI}`)
 
@@ -124,8 +131,9 @@ let init = () => {
   return Promise.resolve(str)
 }
 
-process.once("SIGUSR2", function () {
+process.once("SIGINT", function () {
   console.log('======= STOPPING ======= \n')
+  process.exit()
 })
 
 let goTryCreateFolder = ({ workspace }) => {

@@ -3,7 +3,7 @@
 
     <div v-if="ready">
       <div>
-        <button @click="add">add both</button>
+        <button @click="addItem()">add both</button>
       </div>
       <div>
         <button @click="addSnap({ snap: core.current })">snap</button>
@@ -11,10 +11,13 @@
 
       <div v-if="core && core.current && core.current.db">
         <div :key="rk" v-for="(records, rk) in core.current.db">
-          <div>{{ rk }}</div>
+          <div><button @click="removeCollection({ collection: rk })">Remove</button>{{ rk }}</div>
           <table>
             <tr :key="row._id" v-for="row in records">
-              <td><button @click="remove({ collection: rk, arr: records, obj: row })">Remove</button></td>
+              <td><button @click="removeItem({ collection: rk, arr: records, obj: row })">Remove</button></td>
+              <td>
+                <textarea v-model="row.text" @input="patchItem({ collection: rk, obj: row })"></textarea>
+              </td>
               <td>{{ row }}</td>
             </tr>
           </table>
@@ -45,29 +48,36 @@ export default {
   },
   mounted () {
     let onRefresh = (data) => {
-      // console.log(data)
       this.ready = true
       this.core = data
       this.$forceUpdate()
     }
 
-    this.adapter = new AdapterClient({ httpsDev: true, force: 'dev', port: 4432, onRefresh })
+    this.adapter = new AdapterClient({ httpsDev: true, port: 4432, force: 'dev', onRefresh })
   },
   methods: {
+    addCollection ({ collection }) {
+      this.adapter.addCollection({ collection })
+    },
+    removeCollection ({ collection }) {
+      this.adapter.removeCollection({ collection })
+    },
     removeSnap ({ snap }) {
       this.adapter.removeSnap({ snap })
     },
     addSnap ({ snap }) {
-      // console.log(collection, obj)
       this.adapter.addSnap({ snap })
     },
-    remove ({ collection, obj }) {
-      // console.log(collection, obj)
-      this.adapter.remove({ collection, obj })
+    removeItem ({ collection, obj }) {
+      this.adapter.removeItem({ collection, obj })
     },
-    add () {
-      this.adapter.add({ collection: 'stuff', obj: { _id: getID(), hello: 'lok' } })
-      this.adapter.add({ collection: 'sliders', obj: { _id: getID(), happy: 'lok' } })
+    addItem () {
+      this.adapter.addItem({ collection: 'stuff', obj: { _id: getID(), hello: 'lok' } })
+      this.adapter.addItem({ collection: 'sliders', obj: { _id: getID(), happy: 'lok' } })
+      this.adapter.addItem({ collection: 'waaaa', obj: { _id: getID(), happy: 'lok' } })
+    },
+    patchItem ({ collection, obj }) {
+      this.adapter.patchItem({ collection, obj })
     }
   }
 }
