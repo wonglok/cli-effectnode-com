@@ -16,7 +16,7 @@
             <tr :key="row._id" v-for="row in records">
               <td><button @click="removeItem({ collection: rk, arr: records, obj: row })">Remove</button></td>
               <td>
-                <textarea v-model="row.text" @input="patchItem({ collection: rk, obj: row })"></textarea>
+                <textarea v-model="row.text" @input="patchProp({ collection: rk, obj: row, prop: 'text' })"></textarea>
               </td>
               <td>{{ row }}</td>
             </tr>
@@ -75,6 +75,9 @@ export default {
       this.adapter.addItem({ collection: 'stuff', obj: { _id: getID(), hello: 'lok' } })
       this.adapter.addItem({ collection: 'sliders', obj: { _id: getID(), happy: 'lok' } })
       this.adapter.addItem({ collection: 'waaaa', obj: { _id: getID(), happy: 'lok' } })
+    },
+    patchProp ({ collection, obj, prop }) {
+      this.adapter.patchProp({ collection, obj, prop })
     },
     patchItem ({ collection, obj }) {
       this.adapter.patchItem({ collection, obj })

@@ -66,6 +66,16 @@ module.exports.setupRoutes = async ({ app, io, workspace }) => {
           })
       })
 
+      socket.on('patch-prop', ({ device, obj, collection, prop }) => {
+        MyDB.get('current.db.' + collection)
+          .find({ _id: obj._id })
+          .set(prop, obj[prop])
+          .write()
+          .then(() => {
+            MyIO.emit('patch-prop', { device, obj, collection, prop })
+          })
+      })
+
       socket.on('add-snap', (snap) => {
         snap.dateSnap = new Date().getTime()
         snap._id = '_' + Math.random().toString(36).substr(2, 9)
