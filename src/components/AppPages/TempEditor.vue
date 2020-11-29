@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <div v-if="ready">
+    <div v-if="ready && core">
       <div>
         <button @click="addItem()">add both</button>
       </div>
@@ -16,7 +16,7 @@
             <tr :key="row._id" v-for="row in records">
               <td><button @click="removeItem({ collection: rk, arr: records, obj: row })">Remove</button></td>
               <td>
-                <textarea v-model="row.text" @input="patchProp({ collection: rk, obj: row, prop: 'text' })"></textarea>
+                <textarea class="h-5" v-model="row.title" @input="patchProp({ collection: rk, obj: row, prop: 'title' })"></textarea>
               </td>
               <td>{{ row }}</td>
             </tr>
@@ -30,7 +30,13 @@
           <td>{{ new Date(snap.dateSnap) }} version: {{ snap.effectnode }}</td>
         </tr>
       </div>
-      <pre v-if="core && core.versions">{{ core.versions.map(e => e._id) }}</pre>
+
+      <pre v-if="core && core.versions">{{ core.versions.map(snap => {
+        return {
+          _id: snap._id,
+          date: new Date(snap.dateSnap)
+        }
+      }) }}</pre>
     </div>
   </div>
 </template>
@@ -43,17 +49,16 @@ export default {
   data () {
     return {
       ready: false,
-      core: {}
+      core: false
     }
   },
   mounted () {
-    let onRefresh = (data) => {
-      this.ready = true
+    this.adapter = new AdapterClient({ httpsDev: true, port: 4432, force: 'dev' })
+    this.adapter.onChange((data) => {
       this.core = data
+      this.ready = true
       this.$forceUpdate()
-    }
-
-    this.adapter = new AdapterClient({ httpsDev: true, port: 4432, force: 'dev', onRefresh })
+    })
   },
   methods: {
     addCollection ({ collection }) {

@@ -1,7 +1,7 @@
-import './main.js'
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import './main.css'
 import './assets/tailwind.css'
 import "@fortawesome/fontawesome-free/css/all.min.css"
 

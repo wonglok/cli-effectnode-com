@@ -10,13 +10,14 @@ module.exports.setupRoutes = async ({ app, io, workspace }) => {
   let makeSocketIO = async ({ io, namespace }) => {
     let MyIO = io.of('/' + namespace)
     let MyRoom = `@${namespace}`
-    let MyDB = await DBEngine.ensureDB({ workspace, namespace: namespace })
+    let ActiveDB = await DBEngine.ensureDB({ workspace, isBackup: false, namespace })
+    let BackupDB = await DBEngine.ensureDB({ workspace, isBackup: true, namespace })
 
     MyIO.on('connection', (socket) => {
       let makeCollection = async ({ collection }) => {
-        let myCollection = MyDB.get('current.db.' + collection).value()
+        let myCollection = ActiveDB.has('current.db.' + collection).value()
         if (!myCollection) {
-          return MyDB.set(`current.db.${collection}`, []).write()
+          return ActiveDB.set(`current.db.${collection}`, []).write()
             .then(() => {
               MyIO.emit('add-collection', { collection })
             })
@@ -30,7 +31,7 @@ module.exports.setupRoutes = async ({ app, io, workspace }) => {
       })
 
       socket.on('remove-collection', ({ collection }) => {
-        MyDB.unset('current.db.' + collection).write()
+        ActiveDB.unset('current.db.' + collection).write()
           .then(() => {
             MyIO.emit('remove-collection', { collection })
           })
@@ -39,7 +40,7 @@ module.exports.setupRoutes = async ({ app, io, workspace }) => {
       socket.on('add-item', async ({ obj, collection }) => {
         await makeCollection({ collection })
 
-        MyDB.get('current.db.' + collection)
+        ActiveDB.get('current.db.' + collection)
           .push(obj)
           .write()
           .then(() => {
@@ -48,7 +49,7 @@ module.exports.setupRoutes = async ({ app, io, workspace }) => {
       })
 
       socket.on('remove-item', ({ obj, collection }) => {
-        MyDB.get('current.db.' + collection)
+        ActiveDB.get('current.db.' + collection)
           .remove({ _id: obj._id })
           .write()
           .then(() => {
@@ -57,7 +58,7 @@ module.exports.setupRoutes = async ({ app, io, workspace }) => {
       })
 
       socket.on('patch-item', ({ device, obj, collection }) => {
-        MyDB.get('current.db.' + collection)
+        ActiveDB.get('current.db.' + collection)
           .find({ _id: obj._id })
           .assign(obj)
           .write()
@@ -67,44 +68,53 @@ module.exports.setupRoutes = async ({ app, io, workspace }) => {
       })
 
       socket.on('patch-prop', ({ device, obj, collection, prop }) => {
-        MyDB.get('current.db.' + collection)
+        ActiveDB.get('current.db.' + collection)
           .find({ _id: obj._id })
-          .set(prop, obj[prop])
+          .assign({ [prop]: obj[prop] })
           .write()
           .then(() => {
             MyIO.emit('patch-prop', { device, obj, collection, prop })
           })
       })
 
-      socket.on('add-snap', (snap) => {
+      socket.on('get-snaps', () => {
+        BackupDB.get('versions')
+          .value()
+          .then((versions) => {
+            MyIO.emit('get-snaps', versions)
+          })
+      })
+
+      socket.on('add-snap', () => {
+        let snap = JSON.parse(JSON.stringify(ActiveDB.get('current').value()))
         snap.dateSnap = new Date().getTime()
         snap._id = '_' + Math.random().toString(36).substr(2, 9)
-        MyDB.get('versions')
+
+        BackupDB.get('versions')
           .push(snap)
           .write()
           .then(() => {
             // console.log(snap, '123')
-            socket.emit('add-snap-local', snap)
+            MyIO.emit('add-snap', snap)
           })
       })
 
       socket.on('remove-snap', (snap) => {
-        MyDB.get('versions')
+        BackupDB.get('versions')
           .remove(snap)
           .write()
           .then(() => {
-            socket.emit('remove-snap-local', snap)
+            MyIO.emit('remove-snap', snap)
           })
       })
 
-      let initData = MyDB.value()
+      let activeData = JSON.parse(JSON.stringify(ActiveDB.value()))
+      let backupData = JSON.parse(JSON.stringify(BackupDB.value()))
+      activeData.versions = backupData.versions
       socket.join(MyRoom)
-      socket.emit('init', initData)
+      socket.emit('init', activeData)
     })
   }
 
-  // http
   await makeSocketIO({ namespace: 'effectnode', io: io    })
-  // https
-  // await makeSocketIO({ namespace: 'effectnode', io: iosec })
 }

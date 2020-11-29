@@ -1,15 +1,8 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://unpkg.com/tailwindcss@0.3.0/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body class="h-screen overflow-hidden flex items-center justify-center" style="background: #edf2f7;">
+<template>
+<div class="h-screen overflow-hidden flex items-center justify-start" style="background: #edf2f7;">
   <div class="font-sans antialiased h-screen flex">
     <!-- Sidebar / channel list -->
-    <div class="bg-indigo-darkest text-purple-lighter flex-none w-24 p-6 hidden md:block">
+    <div class="bg-indigo-800 text-purple-300 flex-none w-24 p-6 hidden md:block">
       <div class="cursor-pointer mb-4">
         <div class="bg-white h-12 w-12 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
           <img src="https://pbs.twimg.com/profile_images/895274026783866881/E1G1nNb0_400x400.jpg" alt="">
@@ -17,7 +10,7 @@
         <div class="text-center text-white opacity-50 text-sm">&#8984;1</div>
       </div>
       <div class="cursor-pointer mb-4">
-        <div class="bg-indigo-lighter opacity-25 h-12 w-12 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
+        <div class="bg-indigo-300 opacity-25 h-12 w-12 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
           L
         </div>
         <div class="text-center text-white opacity-50 text-sm">&#8984;2</div>
@@ -28,7 +21,7 @@
         </div>
       </div>
     </div>
-    <div class="bg-indigo-darker text-purple-lighter flex-none w-64 pb-6 hidden md:block">
+    <div class="bg-indigo-600 text-purple-300 flex-none w-64 pb-6 hidden md:block">
       <div class="text-white mb-2 mt-3 px-4 flex justify-between">
         <div class="flex-auto">
           <h1 class="font-semibold text-xl leading-tight mb-1 truncate">Tailwind CSS</h1>
@@ -52,7 +45,7 @@
             </svg>
           </div>
         </div>
-        <div class="bg-teal-dark py-1 px-4 text-white"># general</div>
+        <div class="bg-blue-600 py-1 px-4 text-white"># general</div>
       </div>
       <div class="mb-8">
         <div class="px-4 mb-2 text-white flex justify-between items-center">
@@ -88,12 +81,12 @@
       </div>
     </div>
     <!-- Chat content -->
-    <div class="flex-1 flex flex-col bg-white overflow-hidden">
+    <div class="flex-1 flex flex-col bg-white overflow-hidden w-full ">
       <!-- Top bar -->
       <div class="border-b flex px-6 py-2 items-center flex-none">
         <div class="flex flex-col">
-          <h3 class="text-grey-darkest mb-1 font-extrabold">#general</h3>
-          <div class="text-grey-dark text-sm truncate">
+          <h3 class="text-grey-900 mb-1 font-extrabold">#general</h3>
+          <div class="text-grey-800 text-sm truncate">
             Chit-chattin' about ugly HTML and mixing of concerns.
           </div>
         </div>
@@ -130,7 +123,7 @@
               <span class="text-grey text-xs">12:45</span>
             </div>
             <p class="text-black leading-normal">How are we supposed to control the marquee space without an utility for it? I propose this:</p>
-            <div class="bg-grey-lighter border border-grey-light text-grey-darkest text-sm font-mono rounded p-3 mt-2 whitespace-pre overflow-scroll">.marquee-lightspeed { -webkit-marquee-speed: fast; }
+            <div class="bg-grey-300 border border-grey-light text-grey-900 text-sm font-mono rounded p-3 mt-2 whitespace-pre overflow-scroll">.marquee-lightspeed { -webkit-marquee-speed: fast; }
               .marquee-lightspeeder { -webkit-marquee-speed: faster; }</div>
             </div>
           </div>
@@ -165,7 +158,7 @@
                 <span class="text-grey text-xs">12:45</span>
               </div>
               <p class="text-black leading-normal">How are we supposed to control the marquee space without an utility for it? I propose this:</p>
-              <div class="bg-grey-lighter border border-grey-light text-grey-darkest text-sm font-mono rounded p-3 mt-2 whitespace-pre overflow-scroll">.marquee-lightspeed { -webkit-marquee-speed: fast; }
+              <div class="bg-grey-300 border border-grey-light text-grey-900 text-sm font-mono rounded p-3 mt-2 whitespace-pre overflow-scroll">.marquee-lightspeed { -webkit-marquee-speed: fast; }
                 .marquee-lightspeeder { -webkit-marquee-speed: faster; }</div>
               </div>
             </div>
@@ -200,7 +193,7 @@
                   <span class="text-grey text-xs">12:45</span>
                 </div>
                 <p class="text-black leading-normal">How are we supposed to control the marquee space without an utility for it? I propose this:</p>
-                <div class="bg-grey-lighter border border-grey-light text-grey-darkest text-sm font-mono rounded p-3 mt-2 whitespace-pre overflow-scroll">.marquee-lightspeed { -webkit-marquee-speed: fast; }
+                <div class="bg-grey-300 border border-grey-light text-grey-900 text-sm font-mono rounded p-3 mt-2 whitespace-pre overflow-scroll">.marquee-lightspeed { -webkit-marquee-speed: fast; }
                   .marquee-lightspeeder { -webkit-marquee-speed: faster; }</div>
                 </div>
               </div>
@@ -235,7 +228,7 @@
                     <span class="text-grey text-xs">12:45</span>
                   </div>
                   <p class="text-black leading-normal">How are we supposed to control the marquee space without an utility for it? I propose this:</p>
-                  <div class="bg-grey-lighter border border-grey-light text-grey-darkest text-sm font-mono rounded p-3 mt-2 whitespace-pre overflow-scroll">.marquee-lightspeed { -webkit-marquee-speed: fast; }
+                  <div class="bg-grey-300 border border-grey-light text-grey-900 text-sm font-mono rounded p-3 mt-2 whitespace-pre overflow-scroll">.marquee-lightspeed { -webkit-marquee-speed: fast; }
                     .marquee-lightspeeder { -webkit-marquee-speed: faster; }</div>
                   </div>
                 </div>
@@ -270,7 +263,7 @@
                       <span class="text-grey text-xs">12:45</span>
                     </div>
                     <p class="text-black leading-normal">How are we supposed to control the marquee space without an utility for it? I propose this:</p>
-                    <div class="bg-grey-lighter border border-grey-light text-grey-darkest text-sm font-mono rounded p-3 mt-2 whitespace-pre overflow-scroll">.marquee-lightspeed { -webkit-marquee-speed: fast; }
+                    <div class="bg-grey-300 border border-grey-light text-grey-900 text-sm font-mono rounded p-3 mt-2 whitespace-pre overflow-scroll">.marquee-lightspeed { -webkit-marquee-speed: fast; }
                       .marquee-lightspeeder { -webkit-marquee-speed: faster; }</div>
                     </div>
                   </div>
@@ -305,7 +298,7 @@
                         <span class="text-grey text-xs">12:45</span>
                       </div>
                       <p class="text-black leading-normal">How are we supposed to control the marquee space without an utility for it? I propose this:</p>
-                      <div class="bg-grey-lighter border border-grey-light text-grey-darkest text-sm font-mono rounded p-3 mt-2 whitespace-pre overflow-scroll">.marquee-lightspeed { -webkit-marquee-speed: fast; }
+                      <div class="bg-grey-300 border border-grey-light text-grey-900 text-sm font-mono rounded p-3 mt-2 whitespace-pre overflow-scroll">.marquee-lightspeed { -webkit-marquee-speed: fast; }
                         .marquee-lightspeeder { -webkit-marquee-speed: faster; }</div>
                       </div>
                     </div>
@@ -329,7 +322,17 @@
                       <input type="text" class="w-full px-4" placeholder="Message #general" />
                     </div>
                   </div>
-                </div>
-              </div>
-            </body>
-            </html>
+    </div>
+  </div>
+</div>
+</template>
+
+<script>
+export default {
+
+}
+</script>
+
+<style>
+
+</style>

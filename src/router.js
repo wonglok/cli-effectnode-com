@@ -24,8 +24,22 @@ export default new Router({
       component: () => import('./components/AppPages/Landing.vue')
     },
     {
+      path: '/tester',
+      component: () => import('./components/AppPages/Tester.vue')
+    },
+    {
       path: '/editor',
-      component: () => import('./components/AppPages/Editor.vue')
+      component: () => import('./components/AppPages/EditorLayout.vue'),
+      children: [
+        {
+          path: '',
+          component: () => import('./components/AppPages/Dashhome.vue')
+        },
+        {
+          path: 'time',
+          component: () => import('./components/AppPages/TimeCompos.vue')
+        }
+      ]
     },
 
     // {

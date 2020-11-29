@@ -27,4 +27,5 @@ dist
 
 cert/
 
-effectnode/*.database.json
+effectnode/effectnode.backup.database.json
+effectnode/effectnode.database.json
