@@ -46,6 +46,13 @@
           "_id": "_fbc00tuoh",
           "happy": "lok"
         }
+      ],
+      "settings": [
+        {
+          "createdAt": "2020-11-30T05:24:34.577Z",
+          "slug": "apple",
+          "_id": "_5i8vxtzo5"
+        }
       ]
     }
   },

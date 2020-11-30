@@ -25,6 +25,7 @@
     "lowdb": "^1.0.0",
     "minimist": "^1.2.5",
     "mkcert": "^1.4.0",
+    "moment": "^2.29.1",
     "nodemon": "^2.0.6",
     "open": "^7.3.0",
     "socket.io": "^3.0.3",

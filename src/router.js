@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 Vue.use(Router)
 
 export default new Router({
@@ -36,11 +35,19 @@ export default new Router({
           component: () => import('./components/AppPages/Dashhome.vue')
         },
         {
-          path: 'time',
-          component: () => import('./components/AppPages/TimeCompos.vue')
+          path: 'settings',
+          component: () => import('./components/AppPages/MySettings.vue')
+        },
+        {
+          path: 'settings/:settingsID',
+          component: () => import('./components/AppPages/PickersPage.vue')
         }
       ]
     },
+    {
+      path: '/*',
+      redirect: '/'
+    }
 
     // {
     //   path: '/about',

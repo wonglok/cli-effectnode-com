@@ -1,10 +1,7 @@
 <template>
-  <UIControl :title="obj.title" @title="obj.title = $event" class="w-full">
+  <UIControl :obj="obj" class="w-full">
     <div slot="content" class="w-full overflow-hidden">
       <Chrome class="w-full" :value="colors" @input="($event) => colors = $event"></Chrome>
-    </div>
-    <div slot="footer" class="text-sm">
-      123
     </div>
   </UIControl>
 </template>
