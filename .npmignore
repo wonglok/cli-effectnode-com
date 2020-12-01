@@ -10,3 +10,6 @@ vue.config.js
 lib/EffectNode/AppVue
 effectnode/
 cert/
+
+effectnode/effectnode.backupDB.json
+effectnode/effectnode.activeDB.json
