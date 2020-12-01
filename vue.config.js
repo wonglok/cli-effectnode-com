@@ -1,7 +1,7 @@
 module.exports = {
   devServer: {
-    host: 'wonglok.local',
-    public: 'https://wonglok.local',
+    host: '0.0.0.0',
+    public: '0.0.0.0',
     disableHostCheck: true
   },
   runtimeCompiler: true

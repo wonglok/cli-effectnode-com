@@ -6,7 +6,7 @@ const http = require('http')
 // const https = require('https')
 const socketio = require('socket.io')
 const express = require('express')
-const { exec } = require('child_process')
+// const { exec } = require('child_process')
 let run = async ({ workspace }) => {
   const WORKSPACE = workspace
   const CORE_PATH = __dirname
@@ -55,29 +55,26 @@ let run = async ({ workspace }) => {
 
 
 
-  let getIP = () => {
-    const ifaces = require('os').networkInterfaces();
-    let address = 'localhost'
+  // let getIP = () => {
+  //   const ifaces = require('os').networkInterfaces();
+  //   let address = 'localhost'
+  //   Object.keys(ifaces).forEach(dev => {
+  //     ifaces[dev].filter(details => {
+  //       if (details.family === 'IPv4' && details.internal === false) {
+  //         address = details.address;
+  //       }
+  //     });
+  //   });
+  //   return address;
+  // }
 
-    Object.keys(ifaces).forEach(dev => {
-      ifaces[dev].filter(details => {
-        if (details.family === 'IPv4' && details.internal === false) {
-          address = details.address;
-        }
-      });
-    });
-
-    return address;
-  }
-
-  const ip = getIP()
+  // const ip = getIP()
   // let genCert = require('./cert.js')
   // let cert = genCert();
 
   // let networkGUIHTTPS = https.createServer(cert, GUI)
   let networkGUIHTTP = http.createServer(GUI)
   // networkGUIHTTPS.listen(portGUI);
-  networkGUIHTTP.listen(portGUI);
 
   // let networkAPIHTTPS = https.createServer(cert, API)
   let networkAPIHTTP = http.createServer(API)
@@ -97,30 +94,37 @@ let run = async ({ workspace }) => {
     }
   })
   // networkAPIHTTPS.listen(portAPI);
-  networkAPIHTTP.listen(portAPI);
+
+  try {
+    networkAPIHTTP.listen(portAPI);
+  } catch (e) {
+  }
+
+  try {
+    networkGUIHTTP.listen(portGUI);
+  } catch (e) {
+  }
 
   // ioAPI.on('connection', (socket) => {
   //   console.log('a user connected', socket.id);
   // });
 
   console.log('======= STARTING =======')
-  console.log(`\n\nEffectNode Control Panel \nhttp://${ip}:${portGUI} \nhttps://${ip}:${portSecGUI}`)
-  console.log(`\n\nEffectNode API \nhttp://${ip}:${portAPI} \nhttps://${ip}:${portSecAPI}`)
+  // console.log(`\n\nEffectNode Control Panel \nhttp://${ip}:${portGUI} \nhttps://${ip}:${portSecGUI}`)
+  // console.log(`\n\nEffectNode API \nhttp://${ip}:${portAPI} \nhttps://${ip}:${portSecAPI}`)
+  // setTimeout(() => {
+  //   try {
+  //     let p1 = exec(`${__dirname}/../node_modules/local-ssl-proxy/bin/local-ssl-proxy --source ${portSecGUI} --target ${portGUI}`)
+  //     let p2 = exec(`${__dirname}/../node_modules/local-ssl-proxy/bin/local-ssl-proxy --source ${portSecAPI} --target ${portAPI}`)
 
-  setTimeout(() => {
-    try {
-      let p1 = exec(`${__dirname}/../node_modules/local-ssl-proxy/bin/local-ssl-proxy --source ${portSecGUI} --target ${portGUI}`)
-      let p2 = exec(`${__dirname}/../node_modules/local-ssl-proxy/bin/local-ssl-proxy --source ${portSecAPI} --target ${portAPI}`)
-
-      process.once("SIGINT", function () {
-        console.log('======= STOPPING ======= \n')
-        p1.kill()
-        p2.kill()
-      })
-
-    } catch (e) {
-    }
-  })
+  //     process.once("SIGINT", function () {
+  //       console.log('======= STOPPING ======= \n')
+  //       p1.kill()
+  //       p2.kill()
+  //     })
+  //   } catch (e) {
+  //   }
+  // })
   // open(`https://${ip}:${portGUI}`)
 
   routes.setupRoutes({ workspace: WORKSPACE, app: API, io: ioAPI })

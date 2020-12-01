@@ -5,53 +5,55 @@
     "effectnode": "1.0.7",
     "dateCreated": 1606622605899,
     "db": {
-      "stuff": [
-        {
-          "_id": "_1ho9614al",
-          "hello": "lok"
-        },
-        {
-          "_id": "_7mql7x61e",
-          "hello": "lok"
-        },
-        {
-          "_id": "_kgghr0qob",
-          "hello": "lok"
-        },
-        {
-          "_id": "_5klfulhi1",
-          "hello": "lok"
-        }
-      ],
-      "sliders": [
-        {
-          "_id": "_6ol3sdi5h",
-          "happy": "lok"
-        },
-        {
-          "_id": "_zhhvngusb",
-          "happy": "lok"
-        },
-        {
-          "_id": "_djzomy3us",
-          "happy": "lok"
-        },
-        {
-          "_id": "_fwzc6t26n",
-          "happy": "lok"
-        }
-      ],
-      "waaaa": [
-        {
-          "_id": "_fbc00tuoh",
-          "happy": "lok"
-        }
-      ],
       "settings": [
         {
-          "createdAt": "2020-11-30T05:24:34.577Z",
-          "slug": "apple",
-          "_id": "_5i8vxtzo5"
+          "createdAt": "2020-12-01T06:10:52.638Z",
+          "slug": "wonglok",
+          "_id": "_vgkhe7j7e"
+        }
+      ],
+      "controls": [
+        {
+          "_id": "_6vqd9tgu5",
+          "type": "color",
+          "settingsID": "_vgkhe7j7e",
+          "slug": "fafafa",
+          "hex": "#B910FB"
+        },
+        {
+          "_id": "_3c7mwnjzq",
+          "type": "color",
+          "settingsID": "_vgkhe7j7e",
+          "slug": "wonglok",
+          "hex": "#16E96A"
+        },
+        {
+          "_id": "_ashwe9wy8",
+          "type": "color",
+          "settingsID": "_vgkhe7j7e",
+          "slug": "wahahaha",
+          "hex": "#DC1717"
+        },
+        {
+          "_id": "_j490iy42u",
+          "type": "color",
+          "settingsID": "_vgkhe7j7e",
+          "slug": "123213",
+          "hex": "#6EE71D"
+        },
+        {
+          "_id": "_0bzvvhtpk",
+          "type": "color",
+          "settingsID": "_vgkhe7j7e",
+          "slug": "_xvqoxaza3",
+          "hex": "#6D02FF"
+        },
+        {
+          "_id": "_l2x54okl4",
+          "type": "color",
+          "settingsID": "_vgkhe7j7e",
+          "slug": "_fmdnd9vds",
+          "hex": "#6EEBFF"
         }
       ]
     }

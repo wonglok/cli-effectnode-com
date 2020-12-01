@@ -1,7 +1,7 @@
 <template>
   <UIControl :obj="obj" class="w-full">
     <div slot="content" class="w-full overflow-hidden">
-      <Chrome class="w-full" :value="colors" @input="($event) => colors = $event"></Chrome>
+      <Chrome class="w-full" :value="colors" @input="onChange"></Chrome>
     </div>
   </UIControl>
 </template>
@@ -26,6 +26,12 @@ export default {
       colors: {
         hex: this.obj.hex || '#ffbaba',
       }
+    }
+  },
+  methods: {
+    onChange ($event) {
+      this.obj.hex = $event.hex
+      this.$effectstore.patchProp({ collection: 'controls', obj: this.obj, prop: 'hex' })
     }
   }
 }

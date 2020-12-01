@@ -28,7 +28,8 @@
               <button class="p-1 text-red-500" @click="removeSetting({ obj: setting })">Remove</button>
             </td>
             <td class="p-2">
-              {{ moment(setting.createdAt).fromNow() }}
+              {{ moment(setting.createdAt).fromNow() }},
+              {{ moment(setting.createdAt).calendar() }}
             </td>
           </tr>
         </table>
@@ -76,7 +77,7 @@ export default {
   mounted () {
     this.$effectstore.addCollection({ collection: 'settings' })
     this.$effectstore.onStream('current.db.settings', ({ data }) => {
-      this.settings = data
+      this.settings = data.slice().reverse()
       this.$forceUpdate()
     })
   }
