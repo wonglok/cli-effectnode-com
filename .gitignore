@@ -29,3 +29,5 @@ cert/
 
 effectnode/effectnode.backup.database.json
 effectnode/effectnode.database.json
+effectnode/effectnode.backupDB.json
+effectnode/effectnode.activeDB.json
