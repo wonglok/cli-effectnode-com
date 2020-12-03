@@ -29,7 +29,8 @@
     "open": "^7.3.0",
     "socket.io": "^3.0.3",
     "socket.io-client": "^3.0.3",
-    "vue-color": "^2.7.1"
+    "vue-color": "^2.7.1",
+    "vue-slider-component": "^3.2.11"
   },
   "scripts": {
     "kill": "killall node; sleep 1; killall node; sleep 1; killall node;",

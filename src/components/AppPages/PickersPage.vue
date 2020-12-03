@@ -24,7 +24,7 @@
             <span ball-at-v-line style="left: -24px; top: calc(7px + 6px);" class=" inline-block absolute w-3 h-3 bg-blue-400 rounded-full"></span>
             <span line-at-v-line style="left: -24px; top: calc(7px + 11px); height: 2px; width: 30px;" class=" inline-block absolute bg-blue-400"></span>
             <div timeline-header class="relative  bg-blue-400 rounded-full px-5 text-white h-10 outline-none resize-none inline-block" style="line-height: 2.5rem; font-size: 17px;" :value="'123' + ' module'">
-              Color Pickers & Animation Controls
+              Visual Controls
             </div>
             <div add-button class="ml-1 py-2  bg-green-400 cursor-pointer rounded-full inline-flex items-center px-3 text-xs text-white">
               <img class="h-5 inline-block" src="../AppIcons/add-white.svg" @click="() => addUIControl({ settingsID })" alt="">
@@ -36,7 +36,11 @@
           <div section-content class="pr-6 flex flex-wrap">
             <div class="mb-3 md:mr-3 w-full md:w-64 inline-block" v-for="obj in controls" :key="obj._id">
               <color-picker v-if="obj.type === 'color'" :obj="obj"></color-picker>
-              <empty-chooser v-if="obj.type === 'ready'" :obj="obj"></empty-chooser>
+              <type-chooser v-if="obj.type === 'ready'" :obj="obj"></type-chooser>
+              <NumberFloat v-if="obj.type === 'float'" :obj="obj"></NumberFloat>
+              <Vector2UI v-if="obj.type === 'vec2'" :obj="obj"></Vector2UI>
+              <Vector3UI v-if="obj.type === 'vec3'" :obj="obj"></Vector3UI>
+              <Vector4UI v-if="obj.type === 'vec4'" :obj="obj"></Vector4UI>
             </div>
           </div>
         </div>
@@ -50,22 +54,30 @@
 
 <script>
 import ColorPicker from '../UIControls/ColorPicker.vue'
-import EmptyChooser from '../UIControls/EmptyChooser.vue'
+import NumberFloat from '../UIControls/NumberFloat.vue'
+import Vector2UI from '../UIControls/Vector2UI.vue'
+import Vector3UI from '../UIControls/Vector3UI.vue'
+import Vector4UI from '../UIControls/Vector4UI.vue'
+import TypeChooser from '../UIControls/TypeChooser.vue'
 export default {
   components: {
+    Vector2UI,
+    Vector3UI,
+    Vector4UI,
     ColorPicker,
-    EmptyChooser
+    TypeChooser,
+    NumberFloat
   },
   methods: {
     addUIControl ({ settingsID }) {
-      console.log(settingsID)
       let obj = {
-        _id: this.$effectstore.getID(),
+        _id: `ui${this.controls.length + 1}`,
         type: 'ready',
         settingsID,
         slug: ''
       }
       obj.slug = obj._id
+
       this.$effectstore.addItem({ collection: 'controls', obj })
     }
   },
@@ -80,14 +92,28 @@ export default {
       controls: []
     }
   },
+  beforeDestroy () {
+    this.destroyed = true
+  },
   mounted () {
     this.$effectstore.addCollection({ collection: 'controls' })
-    this.$effectstore.onStream('current.db.settings', ({ data }) => {
-      this.settings = data
-    }, { filter: { _id: this.settingsID } })
-    this.$effectstore.onStream('current.db.controls', ({ data }) => {
-      this.controls = data
-    }, { filter: { settingsID: this.settingsID } })
+    this.$effectstore.onChange((data) => {
+      if (!this.$el || !data || !data.current.db.settings) {
+        return
+      }
+
+      let latest = data.current.db.settings.find(e => e._id === this.settingsID)
+      this.settings = latest
+    })
+
+    this.$effectstore.onChange((data) => {
+      if (!this.$el || !data || !data.current.db.controls) {
+        return
+      }
+
+      let results = data.current.db.controls.filter(e => e.settingsID === this.settingsID)
+      this.controls = results
+    })
   }
 }
 </script>

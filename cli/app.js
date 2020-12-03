@@ -55,20 +55,6 @@ let run = async ({ workspace }) => {
 
 
 
-  // let getIP = () => {
-  //   const ifaces = require('os').networkInterfaces();
-  //   let address = 'localhost'
-  //   Object.keys(ifaces).forEach(dev => {
-  //     ifaces[dev].filter(details => {
-  //       if (details.family === 'IPv4' && details.internal === false) {
-  //         address = details.address;
-  //       }
-  //     });
-  //   });
-  //   return address;
-  // }
-
-  // const ip = getIP()
   // let genCert = require('./cert.js')
   // let cert = genCert();
 
@@ -105,13 +91,42 @@ let run = async ({ workspace }) => {
   } catch (e) {
   }
 
+  process.once("SIGHUP", function () {
+    console.log('======= STOPPING ======= \n')
+    networkAPIHTTP.close();
+    networkGUIHTTP.close()
+  })
+  process.once("SIGHUP2", function () {
+    console.log('======= STOPPING ======= \n')
+    networkAPIHTTP.close();
+    networkGUIHTTP.close();
+  })
+
   // ioAPI.on('connection', (socket) => {
   //   console.log('a user connected', socket.id);
   // });
 
-  console.log('======= STARTING =======')
-  // console.log(`\n\nEffectNode Control Panel \nhttp://${ip}:${portGUI} \nhttps://${ip}:${portSecGUI}`)
-  // console.log(`\n\nEffectNode API \nhttp://${ip}:${portAPI} \nhttps://${ip}:${portSecAPI}`)
+
+  let getIP = () => {
+    const ifaces = require('os').networkInterfaces();
+    let address = 'localhost'
+    Object.keys(ifaces).forEach(dev => {
+      ifaces[dev].filter(details => {
+        if (details.family === 'IPv4' && details.internal === false) {
+          address = details.address;
+        }
+      });
+    });
+    return address;
+  }
+
+  const ip = getIP()
+
+  console.log('======= READY =======\n')
+  console.log(`EffectNode Control Panel \nhttp://${ip}:${portGUI} \nhttps://${ip}:${portSecGUI}`)
+  console.log(`\n\nEffectNode API \nhttp://${ip}:${portAPI} \nhttps://${ip}:${portSecAPI}`)
+  console.log('\n======= READY =======')
+
   // setTimeout(() => {
   //   try {
   //     let p1 = exec(`${__dirname}/../node_modules/local-ssl-proxy/bin/local-ssl-proxy --source ${portSecGUI} --target ${portGUI}`)

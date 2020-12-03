@@ -41,7 +41,7 @@ module.exports.setupRoutes = async ({ app, io, workspace }) => {
         await makeCollection({ collection })
 
         ActiveDB.get('current.db.' + collection)
-          .push(obj)
+          .unshift(obj)
           .write()
           .then(() => {
             MyIO.emit('add-item', { obj, collection })
@@ -91,7 +91,7 @@ module.exports.setupRoutes = async ({ app, io, workspace }) => {
         snap._id = '_' + Math.random().toString(36).substr(2, 9)
 
         BackupDB.get('versions')
-          .push(snap)
+          .unshift(snap)
           .write()
           .then(() => {
             // console.log(snap, '123')

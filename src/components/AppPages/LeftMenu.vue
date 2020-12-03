@@ -25,7 +25,7 @@ export default {
     return {
       menu: [
         { name: 'Dashboard', to: '/editor/' },
-        { name: 'Graphics Settings', to: '/editor/settings' }
+        { name: 'Visual Controls', to: '/editor/settings' }
       ],
       packages: []
     }

@@ -6,13 +6,21 @@
       <slot name="content"></slot>
     </div>
     <div class="px-3 py-2 bg-gray-300 rounded-b-xl text-right text-sm">
-      <button class="ml-2" @click="obj.type = 'ready'; $effectstore.patchProp({ collection: 'controls', obj, prop: 'type' })">Reset</button>
-      <button class="ml-2" @click="$effectstore.removeItem({ collection: 'controls', obj, prop: 'type' })">Remove</button>
+      <button v-if="obj.type !== 'ready'" class="ml-2" @click="cloneBox()">
+        <img alt="clone" title="clone" class="inline h-5" src="./icons/clone.svg">
+      </button>
+      <button v-if="obj.type !== 'ready'" class="ml-2" @click="resetBox()">
+        <img alt="reset" title="reset" class="inline h-5" src="./icons/reset.svg">
+      </button>
+      <button class="ml-2" @click="$effectstore.removeItem({ collection: 'controls', obj, prop: 'type' })">
+        <img alt="remove" title="remove" class="inline h-5" src="./icons/remove.svg">
+      </button>
     </div>
   </div>
 </template>
 
 <script>
+import { getID } from '../../../lib/EffectNode/Core/EffectNode'
 export default {
   props: {
     obj: {}
@@ -21,7 +29,19 @@ export default {
     return {
     }
   },
+  mounted () {
+  },
   methods: {
+    cloneBox () {
+      let newObj = JSON.parse(JSON.stringify(this.obj))
+      newObj._id = getID()
+      newObj.slug = newObj.slug.replace('ui_cloned_', 'ui').replace('ui', 'ui_cloned_')
+      this.$effectstore.addItem({ collection: 'controls', obj: newObj })
+    },
+    resetBox () {
+      this.obj.type = 'ready'
+      this.$effectstore.patchProp({ collection: 'controls', obj: this.obj, prop: 'type' })
+    },
     updateSlug () {
       this.$effectstore.patchProp({ collection: 'controls', obj: this.obj, prop: 'slug' })
     }
@@ -30,5 +50,4 @@ export default {
 </script>
 
 <style>
-
 </style>

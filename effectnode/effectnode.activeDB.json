@@ -7,53 +7,52 @@
     "db": {
       "settings": [
         {
-          "createdAt": "2020-12-01T06:10:52.638Z",
-          "slug": "wonglok",
-          "_id": "_vgkhe7j7e"
+          "createdAt": "2020-12-03T21:12:45.226Z",
+          "slug": "aaa",
+          "_id": "_6v4ybzqsb"
         }
       ],
       "controls": [
         {
-          "_id": "_6vqd9tgu5",
+          "_id": "_yp8e4e5qt",
           "type": "color",
-          "settingsID": "_vgkhe7j7e",
-          "slug": "fafafa",
-          "hex": "#B910FB"
+          "settingsID": "_6v4ybzqsb",
+          "slug": "ui5",
+          "hex": "#AD2929"
         },
         {
-          "_id": "_3c7mwnjzq",
-          "type": "color",
-          "settingsID": "_vgkhe7j7e",
-          "slug": "wonglok",
-          "hex": "#16E96A"
+          "_id": "_cxbe3csah",
+          "type": "float",
+          "settingsID": "_6v4ybzqsb",
+          "slug": "ui4",
+          "value": 39.38
         },
         {
-          "_id": "_ashwe9wy8",
-          "type": "color",
-          "settingsID": "_vgkhe7j7e",
-          "slug": "wahahaha",
-          "hex": "#DC1717"
+          "_id": "_hn1tnwm1m",
+          "type": "vec2",
+          "settingsID": "_6v4ybzqsb",
+          "slug": "ui3",
+          "x": 58.93,
+          "y": -56.73
         },
         {
-          "_id": "_j490iy42u",
-          "type": "color",
-          "settingsID": "_vgkhe7j7e",
-          "slug": "123213",
-          "hex": "#6EE71D"
+          "_id": "_uwtffs1g2",
+          "type": "vec3",
+          "settingsID": "_6v4ybzqsb",
+          "slug": "ui2",
+          "x": 100,
+          "y": 3.5,
+          "z": 45.54
         },
         {
-          "_id": "_0bzvvhtpk",
-          "type": "color",
-          "settingsID": "_vgkhe7j7e",
-          "slug": "_xvqoxaza3",
-          "hex": "#6D02FF"
-        },
-        {
-          "_id": "_l2x54okl4",
-          "type": "color",
-          "settingsID": "_vgkhe7j7e",
-          "slug": "_fmdnd9vds",
-          "hex": "#6EEBFF"
+          "_id": "_bdwo1vsql",
+          "type": "vec4",
+          "settingsID": "_6v4ybzqsb",
+          "slug": "ui1",
+          "x": -34.02,
+          "y": 34.82,
+          "z": -5.36,
+          "w": -39.97
         }
       ]
     }
