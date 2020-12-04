@@ -85,8 +85,37 @@ module.exports.setupRoutes = async ({ app, io, workspace }) => {
           })
       })
 
+      socket.on('restore-snap', ({ device, restore }) => {
+        let currentVersion = ActiveDB.get('current').value()
+        if (!currentVersion) {
+          console.log('no current data')
+          return
+        }
+        let newSnap = JSON.parse(JSON.stringify(currentVersion))
+        newSnap.dateSnap = new Date().getTime()
+        newSnap._id = '_' + Math.random().toString(36).substr(2, 9)
+
+        if (!restore) {
+          console.log('no restore data')
+          return
+        }
+        BackupDB.get('versions')
+          .unshift(newSnap)
+          .write()
+          .then(() => {
+            MyIO.emit('add-snap', newSnap)
+          })
+
+        ActiveDB.set('current', restore)
+          .write()
+          .then(() => {
+            MyIO.emit('restore-snap', { device, restore })
+          })
+      })
+
       socket.on('add-snap', () => {
-        let snap = JSON.parse(JSON.stringify(ActiveDB.get('current').value()))
+        let currentVersion = ActiveDB.get('current').value()
+        let snap = JSON.parse(JSON.stringify(currentVersion))
         snap.dateSnap = new Date().getTime()
         snap._id = '_' + Math.random().toString(36).substr(2, 9)
 

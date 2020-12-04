@@ -8,7 +8,7 @@
           <vue-slider :dotSize="25" :duration="0.3" :interval="0.01" :min="-100.0" :max="100.0" :tooltip="'none'" v-model="obj.value" @change="onChangeValue($event)" />
         </div>
         <div class=" w-1/5 ml-4">
-          <input type="text" v-model="obj.value">
+          <input type="text" v-model="obj.value" @input="onChangeValue($event.target.value)">
         </div>
       </div>
       <!-- <div class="mx-3 flex justify-between items-center">

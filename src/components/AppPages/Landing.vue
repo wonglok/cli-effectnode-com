@@ -584,7 +584,7 @@ export default {
   },
   methods: {
     letsGo () {
-      this.$router.push('/editor')
+      this.$router.push('/editor/settings')
     }
   },
   mounted () {

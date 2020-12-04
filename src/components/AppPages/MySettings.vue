@@ -112,7 +112,7 @@ export default {
     this.$effectstore.addCollection({ collection: 'controls' })
     this.$effectstore.addCollection({ collection: 'settings' })
     this.$effectstore.onChange((data) => {
-      if (!this.$el || !data) {
+      if (!this.$el || !data || !data.current) {
         return
       }
 

@@ -8,17 +8,19 @@
           <vue-slider :dotSize="25" :duration="0.3" :interval="0.01" :min="-100.0" :max="100.0" :tooltip="'none'" v-model="obj.x" @change="onChangeX($event)" />
         </div>
         <div class=" w-1/5 ml-4">
-          <input type="text" v-model="obj.x">
+          <input type="text" v-model="obj.x" @input="onChangeX($event.target.value)">
         </div>
       </div>
+
       <div class="mx-3 flex justify-between items-center">
         <div class="w-4/5">
           <vue-slider :dotSize="25" :duration="0.3" :interval="0.01" :min="-100.0" :max="100.0" :tooltip="'none'" v-model="obj.y" @change="onChangeY($event)" />
         </div>
         <div class=" w-1/5 ml-4">
-          <input type="text" v-model="obj.y">
+          <input type="text" v-model="obj.y" @input="onChangeY($event.target.value)">
         </div>
       </div>
+
       <!-- <div class="mx-3 flex justify-between items-center" v-if="refresher">
         <div class="w-4/5">
           <vue-slider :dotSize="25" :duration="0.3" :interval="0.01" :min="-100.0" :max="100.0" :tooltip="'none'" v-model="obj.z" @change="onChangeZ($event)" />
@@ -97,7 +99,7 @@ export default {
     onChangeX ($event) {
       clearTimeout(this.tout)
       this.tout = setTimeout(() => {
-        this.obj.x = $event
+        this.obj.x = Number($event)
         this.$forceUpdate()
         this.$effectstore.patchProp({ collection: 'controls', obj: this.obj, prop: 'x' })
       }, 10.0)

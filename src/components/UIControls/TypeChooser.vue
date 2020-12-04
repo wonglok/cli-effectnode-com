@@ -3,6 +3,7 @@
     <div slot="content" class="w-full overflow-hidden p-3">
       <div class=" text-xs">Choose Input Type:</div>
       <div class="h-3"></div>
+      <button class="block px-3 py-1 mb-2 border border-black rounded-lg text-sm" @click="setChooser({ type: 'vec2joystick' })">Vector2 Joystick</button>
       <button class="block px-3 py-1 mb-2 border border-black rounded-lg text-sm" @click="setChooser({ type: 'color' })">Color Picker</button>
       <button class="block px-3 py-1 mb-2 border border-black rounded-lg text-sm" @click="setChooser({ type: 'float' })">Float Number</button>
       <button class="block px-3 py-1 mb-2 border border-black rounded-lg text-sm" @click="setChooser({ type: 'vec2' })">Vector2 Number</button>
@@ -42,6 +43,10 @@ export default {
         this.obj.value = 1
       }
       if (type === 'vec2') {
+        this.obj.x = 0
+        this.obj.y = 0
+      }
+      if (type === 'vec2joystick') {
         this.obj.x = 0
         this.obj.y = 0
       }

@@ -3,7 +3,7 @@
 
     <div v-if="ready && core">
       <div>
-        <button @click="addItem()">add both</button>
+        <button @click="addItem()">add items and create test Collections</button>
       </div>
       <div>
         <button @click="addSnap({ snap: core.current })">snap</button>
@@ -31,12 +31,7 @@
         </tr>
       </div>
 
-      <pre v-if="core && core.versions">{{ core.versions.map(snap => {
-        return {
-          _id: snap._id,
-          date: new Date(snap.dateSnap)
-        }
-      }) }}</pre>
+      <pre v-if="core && core.versions">{{ core.versions }}</pre>
     </div>
   </div>
 </template>

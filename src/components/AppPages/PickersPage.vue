@@ -41,6 +41,7 @@
               <Vector2UI v-if="obj.type === 'vec2'" :obj="obj"></Vector2UI>
               <Vector3UI v-if="obj.type === 'vec3'" :obj="obj"></Vector3UI>
               <Vector4UI v-if="obj.type === 'vec4'" :obj="obj"></Vector4UI>
+              <Vector2Joystick v-if="obj.type === 'vec2joystick'" :obj="obj"></Vector2Joystick>
             </div>
           </div>
         </div>
@@ -58,6 +59,7 @@ import NumberFloat from '../UIControls/NumberFloat.vue'
 import Vector2UI from '../UIControls/Vector2UI.vue'
 import Vector3UI from '../UIControls/Vector3UI.vue'
 import Vector4UI from '../UIControls/Vector4UI.vue'
+import Vector2Joystick from '../UIControls/Vector2Joystick.vue'
 import TypeChooser from '../UIControls/TypeChooser.vue'
 export default {
   components: {
@@ -66,6 +68,7 @@ export default {
     Vector4UI,
     ColorPicker,
     TypeChooser,
+    Vector2Joystick,
     NumberFloat
   },
   methods: {

@@ -8,7 +8,7 @@
           <vue-slider :dotSize="25" :duration="0.3" :interval="0.01" :min="-100.0" :max="100.0" :tooltip="'none'" v-model="obj.x" @change="onChangeX($event)" />
         </div>
         <div class=" w-1/5 ml-4">
-          <input type="text" v-model="obj.x">
+          <input type="text" v-model="obj.x" @input="onChangeX($event.target.value)">
         </div>
       </div>
       <div class="mx-3 flex justify-between items-center">
@@ -16,7 +16,7 @@
           <vue-slider :dotSize="25" :duration="0.3" :interval="0.01" :min="-100.0" :max="100.0" :tooltip="'none'" v-model="obj.y" @change="onChangeY($event)" />
         </div>
         <div class=" w-1/5 ml-4">
-          <input type="text" v-model="obj.y">
+          <input type="text" v-model="obj.y"  @input="onChangeY($event.target.value)">
         </div>
       </div>
       <div class="mx-3 flex justify-between items-center">
@@ -24,7 +24,7 @@
           <vue-slider :dotSize="25" :duration="0.3" :interval="0.01" :min="-100.0" :max="100.0" :tooltip="'none'" v-model="obj.z" @change="onChangeZ($event)" />
         </div>
         <div class=" w-1/5 ml-4">
-          <input type="text" v-model="obj.z">
+          <input type="text" v-model="obj.z" @input="onChangeZ($event.target.value)">
         </div>
       </div>
       <!-- <div class="mx-3 flex justify-between items-center">
